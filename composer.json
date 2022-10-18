@@ -1,0 +1,19 @@
+{
+  "name": "ucraft-com/omnipay-cashu",
+  "description": "CashU driver for the Omnipay payment processing library",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Ucraft",
+      "email": "gor.mkrtcyhan@ucraft.com"
+    }
+  ],
+  "require": {
+    "omnipay/common": "^3.2"
+  },
+  "autoload": {
+    "psr-4": {
+      "Omnipay\\Cashu\\": "src/"
+    }
+  }
+}
