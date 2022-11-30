@@ -54,12 +54,25 @@ class PurchaseRequest extends AbstractRequest
      */
     public function sendData($data) : PurchaseResponse
     {
-        try {
-            $client = new SoapClient($this->getWsdlUrl(), [
-                'trace'      => 1,
-                'cache_wsdl' => WSDL_CACHE_NONE,
-                'user_agent' => 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:20.0) Gecko/20100101 Firefox/20.0'
+        $options = [
+            'trace'      => 1,
+            'cache_wsdl' => WSDL_CACHE_NONE,
+            'user_agent' => 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:20.0) Gecko/20100101 Firefox/20.0'
+        ];
+
+        if ($this->getTestMode()) {
+            //to prevent error: SOAP-ERROR: Parsing WSDL: Couldn't load from '' : failed to load external entity
+            $options['stream_context'] = stream_context_create([
+                'ssl' => [
+                    'verify_peer'       => false,
+                    'verify_peer_name'  => false,
+                    'allow_self_signed' => true
+                ],
             ]);
+        }
+
+        try {
+            $client = new SoapClient($this->getWsdlUrl(), $options);
         } catch (SoapFault $ex) {
             return $this->response = new PurchaseResponse($this, ['message' => $ex->getMessage(), 'code' => (string) $ex->getCode()]);
         }
