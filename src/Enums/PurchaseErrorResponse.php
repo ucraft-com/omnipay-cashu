@@ -4,7 +4,7 @@ declare(strict_types = 1);
 
 namespace Omnipay\Cashu\Enums;
 
-use App\Traits\EnumToArray;
+use Omnipay\Cashu\Traits\EnumToArray;
 
 enum PurchaseErrorResponse
 {
